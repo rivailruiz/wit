@@ -68,11 +68,13 @@ const multiplication = async (req: Request, res: Response) => {
 
 const validation = async (req: Request, res: Response) => {
   const { id } = req.body;
-
   let operation = await Calc.findById(id).exec();
-  console.log(operation);
 
   return operation;
+}
+
+const createLog = async () => {
+  
 }
 
 

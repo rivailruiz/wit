@@ -10,7 +10,6 @@ const addition = async (req: Request, res: Response) => {
  
 const subtraction = async (req: Request, res: Response) => {
   let operation = await operationsService.subtraction(req, res)
-  console.log(operation.id);
   res.setHeader('Document-Id', operation.id)
   res.send(operation.response); 
 }

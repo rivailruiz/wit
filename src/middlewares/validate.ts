@@ -8,23 +8,27 @@ function validate(
 ) {
   const { a, b } = req.body;
   let customError;
-  console.log(req)
-  let operationRoutes = [
-    ''
-  ]
-  if (!a) {
-    customError = new CustomError(
-      "The operator 'a' cannot be null."
-    );
-    res.status((customError as CustomError).status).send(customError);
+
+  if (req.originalUrl != '/api/validation') {
+
+    if (!a) {
+      customError = new CustomError(
+        "The operator 'a' cannot be null."
+      );
+      res.status((customError as CustomError).status).send(customError);
+      return false;
+    }
+  
+    if (!b) {
+      customError = new CustomError(
+        "The operator 'b' cannot be null."
+      );
+      res.status((customError as CustomError).status).send(customError);
+      return false;
+    }
+    
   }
 
-  if (!b) {
-    customError = new CustomError(
-      "The operator 'b' cannot be null."
-    );
-    res.status((customError as CustomError).status).send(customError);
-  }
 
   next();
 };
