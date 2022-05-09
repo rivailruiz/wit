@@ -66,5 +66,14 @@ const multiplication = async (req: Request, res: Response) => {
   return { id: multiplication._id.toString(), response };
 }
 
+const validation = async (req: Request, res: Response) => {
+  const { id } = req.body;
 
-module.exports = { addition, subtraction, division, multiplication };
+  let operation = await Calc.findById(id).exec();
+  console.log(operation);
+
+  return operation;
+}
+
+
+module.exports = { addition, subtraction, division, multiplication, validation };

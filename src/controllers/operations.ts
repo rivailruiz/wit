@@ -27,4 +27,9 @@ const multiplication = async (req: Request, res: Response) => {
   res.send(operation.response); 
 }
 
-module.exports = { addition, subtraction, division, multiplication };
+const validation = async (req: Request, res: Response) => {
+  let operation = await operationsService.validation(req, res)
+  res.send(operation); 
+}
+
+module.exports = { addition, subtraction, division, multiplication, validation };

@@ -8,6 +8,10 @@ function validate(
 ) {
   const { a, b } = req.body;
   let customError;
+  console.log(req)
+  let operationRoutes = [
+    ''
+  ]
   if (!a) {
     customError = new CustomError(
       "The operator 'a' cannot be null."

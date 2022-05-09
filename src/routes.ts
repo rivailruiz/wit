@@ -20,4 +20,8 @@ router.post('/api/multiplication', async (req: Request, res: Response) => {
   await operationsController.multiplication(req, res);
 })
 
+router.post('/api/validation', async (req: Request, res: Response) => {
+  await operationsController.validation(req, res);
+})
+
 export { router as MainRouter }
