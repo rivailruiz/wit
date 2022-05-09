@@ -14,16 +14,15 @@ const loggerMiddleware = (request: express.Request, response: express.Response, 
   next();
 }
 
-
 app.use(loggerMiddleware);
 app.use(errorHandler);
 
 //DB
 mongoose.connect('mongodb://localhost:27017/wit')
-.then(
-  () => { console.log('connected to mongodb ')},
-  err => { console.log (err) }
-  )
+  .then(
+    () => { console.log('connected to mongodb ')},
+    err => { console.log (err) }
+    )
   
 mongoose.connection.on('connected', () => console.log('Connected db'));
 mongoose.connection.on('error', (err) => console.log('Connection failed with - ', err));
