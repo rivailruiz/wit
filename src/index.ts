@@ -8,14 +8,6 @@ import validate from './middlewares/validate';
 const app = express();
 app.use(json());
 app.use(MainRouter);
-
-
-const loggerMiddleware = (request: express.Request, response: express.Response, next: any) => {
-  console.log(`${request.method} ${request.path}`);
-  next();
-}
-
-app.use(loggerMiddleware);
 app.use(errorHandler);
 app.use(validate);
 
