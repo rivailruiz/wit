@@ -1,37 +1,25 @@
-import express, { Request, Response } from 'express';
-import { validate } from '../models/validation';
+import { Request, Response } from 'express';
 
-const addiction = (req: Request, res: Response) => {
-    const { operative1, operative2 } = req.body;
-    res.send(`WIT Calc: ${operative1 + operative2}`);
+const operationsService = require('../services/operations');
+
+const addition = (req: Request, res: Response) => {
+  let operation = operationsService.addition(req, res)
+  res.send(operation);
 };
 
 const subtraction = (req: Request, res: Response) => {
-    const { operative1, operative2 } = req.body;
-    res.send(`WIT Calc: ${operative1 - operative2}`);
+  let operation = operationsService.subtraction(req, res)
+  res.send(operation);
 }
 
 const division = (req: Request, res: Response) => {
-    const { operative1, operative2 } = req.body;
-    res.send(`WIT Calc: ${operative1 / operative2}`);
+  let operation = operationsService.division(req, res)
+  res.send(operation);
 }
 
 const multiplication = (req: Request, res: Response) => {
-    const { operative1, operative2 } = req.body;
-    res.send(`WIT Calc: ${operative1 / operative2}`);
+  let operation = operationsService.multiplication(req, res)
+  res.send(operation);
 }
 
-
-
-const validateFields = (operative1: number, operative2: number) => {
-    if(!operative1 || isNaN(operative1)){
-        return {"sucess": false, "message": "please, verify the operative1 field."}
-    }
-    if(!operative2 || isNaN(operative2)){
-        return {"sucess": false, "message": "please, verify the operative2 field."}
-    }
-
-    return true;
-}
-
-module.exports = { addiction, subtraction, division, multiplication };
+module.exports = { addition, subtraction, division, multiplication };
