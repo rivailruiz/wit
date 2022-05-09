@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 interface ICalc {
   a: Number;
   b: Number;
+  result: Number;
 }
 
 const calcSchema = new mongoose.Schema({
@@ -13,6 +14,14 @@ const calcSchema = new mongoose.Schema({
   b: {
     type: Number,
     required: true
+  },
+  result: {
+    type: Number,
+    required: false
+  },
+  id: {
+    type: String,
+    required: false
   }
 })
 
