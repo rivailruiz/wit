@@ -9,9 +9,7 @@
 > Este challenge tem como objectivo a avaliação do conhecimento em Node.js developers candidatos à WIT.
 
 ## Melhorias
-```sh
-Pensei em utilizar o NestJs para construir o APP, porém, como solicitado na descrição, utilizei o express.js
-```
+> Pensei em utilizar o NestJs para construir o APP, porém, como solicitado na descrição, utilizei o express.js
 
 ## Install
 
@@ -23,12 +21,6 @@ npm install
 
 ```sh
 npm run start
-```
-
-## Run tests
-
-```sh
-''
 ```
 
 ## Author
