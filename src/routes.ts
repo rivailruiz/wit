@@ -4,7 +4,7 @@ import validate from './middlewares/validate';
 const operationsController = require('./controllers/operations');
 const router = express.Router();
 
-router.post('/api/addition', validate, async (req: Request, res: Response) => {
+router.post('/api/addition', async (req: Request, res: Response) => {
   await operationsController.addition(req, res);
 })
 

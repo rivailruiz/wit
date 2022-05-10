@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { CustomError } from '../models/custom-error';
+const logsService = require('../services/logs');
 
 function validate(
   req: Request,
@@ -11,19 +12,23 @@ function validate(
 
   if (req.originalUrl != '/api/validation') {
 
-    if (!a) {
+    if (!a || isNaN(a)) {
       customError = new CustomError(
-        "The operator 'a' cannot be null."
+        "Please verify the operator 'a'.",
+        400
       );
-      res.status((customError as CustomError).status).send(customError);
-      return false;
+      res.status(400).send(customError);
+      logsService.createLog(0, req.ip, 0, 400, req, res);
+      return false; 
     }
   
-    if (!b) {
+    if (!b || isNaN(b)) {
       customError = new CustomError(
-        "The operator 'b' cannot be null."
+        "Please verify the operator 'b'.",
+        400
       );
-      res.status((customError as CustomError).status).send(customError);
+      res.status(400).send(customError);
+      logsService.createLog(0, req.ip, 0, 400, req, res);
       return false;
     }
     

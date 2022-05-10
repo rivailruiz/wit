@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { CustomError } from '../models/custom-error';
+const logsService = require('../services/logs');
 
 function handleError(
   err: TypeError | CustomError,
@@ -16,7 +17,7 @@ function handleError(
       'Oh no, this is embarrasing. We are having troubles my friend'
     );
   }
-
+  logsService.createLog(0, req.ip, 0, 500, req, res);
   res.status((customError as CustomError).status).send(customError);
 };
 

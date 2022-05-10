@@ -28,6 +28,7 @@ const multiplication = async (req: Request, res: Response) => {
 
 const validation = async (req: Request, res: Response) => {
   let operation = await operationsService.validation(req, res)
+  console.log(req);
   res.send(operation); 
 }
 
