@@ -15,7 +15,7 @@ app.use(validate);
 app.use(MainRouter);
 
 //CONFIGS
-const create_logs = 1;
+const create_logs = 0;
 const time_to_logs = 10000;
 
 //DB
