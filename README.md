@@ -6,7 +6,7 @@
   </a>
 </p>
 
-> Este challenge tem como objectivo a avaliação do conhecimento em Node.js developers candidatos à WIT.
+> Projeto para de Calculadora para a WIT Software.
 
 ## Melhorias
 > Pensei em utilizar o NestJs para construir o APP, porém, como solicitado na descrição, utilizei o express.js
