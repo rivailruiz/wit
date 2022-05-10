@@ -11,6 +11,9 @@
 ## Melhorias
 > Pensei em utilizar o NestJs para construir o APP, porém, como solicitado na descrição, utilizei o express.js
 
+## Requisitos
+> Necessário mongodb!
+
 ## Install
 
 ```sh
