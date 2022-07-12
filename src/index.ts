@@ -6,6 +6,7 @@ import errorHandler from './middlewares/error-handler';
 import validate from './middlewares/validate';
 import { socket } from './socket';
 import http from 'http';
+import cors from 'cors';
 import * as socketio from "socket.io";
 
 
@@ -13,18 +14,27 @@ require('dotenv').config()
 
 const app = express();
 const server = http.createServer(app);
-app.set('trust proxy', true);
+const allowedOrigins = ['http://localhost:8080'];
+
+const options: cors.CorsOptions = {
+  origin: allowedOrigins
+};
 app.use(json());
+app.use(cors(options));
+app.use(MainRouter);
+
+app.set('trust proxy', true);
 app.use(errorHandler);
 app.use(validate);
-app.use(MainRouter);
-const Socket: socket = new socket(server);
+
+
+export const Socket: socket = new socket(server);
 Socket.init();
 Socket.listen();
 
 
 //DB
-mongoose.connect('mongodb://localhost:27017/wit')
+mongoose.connect('mongodb://localhost:27017/55pbx')
 .then(
   () => { console.log('connected to mongodb ') },
   err => { console.log(err) }
