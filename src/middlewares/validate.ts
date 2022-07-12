@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { CustomError } from '../models/custom-error';
-const logsService = require('../services/logs');
+
 
 function validate(
   req: Request,
@@ -18,7 +18,6 @@ function validate(
         400
       );
       res.status(400).send(customError);
-      logsService.createLog(0, req.ip, 0, 400, req, res);
       return false; 
     }
   
@@ -28,7 +27,6 @@ function validate(
         400
       );
       res.status(400).send(customError);
-      logsService.createLog(0, req.ip, 0, 400, req, res);
       return false;
     }
     
