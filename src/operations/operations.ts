@@ -5,13 +5,15 @@ import Path from 'path';
 import fs from 'fs';
 import { Socket } from '../index';
 const sharp = require("sharp");
+const { createCanvas, loadImage } = require('canvas')
 
-let formats: any = [];
 export class operations {
+    formats: any = [];
     
     constructor() { }
 
     public static async fetchUrl(url: string) {
+        
         let allImgs = await axios.get(url)
             .then(async (res) => {
                 const links = [];
@@ -35,7 +37,6 @@ export class operations {
                         links.push({ url: img })
                     }
                 });
-                console.log(formats);
                 return true;
 
             }).catch(err => console.error(err))
@@ -55,20 +56,7 @@ export class operations {
                 responseType: 'stream'
             })
 
-            formats.push(response.headers['content-type']);
-            console.log('**********1**********')
-            const unsuportedFiles = ['image/webp', 'webp', 'image/svg+xml']
-            if(!unsuportedFiles.includes(response.headers['content-type'])){
-                // const imageSharp = new sharp(directory + '/' + id + '.png', {failOn: 'none'})
-                const imageSharp = await sharp(directory + '/' + id + '.png');
-                let aaa = await imageSharp.metadata();
-                console.log(aaa);
-                console.log('**********2**********')
-                imageSharp.greyscale();
-                imageSharp.toFile(directory + '/gray-' + id + '.png');
-            }
-            
-            // response.data.pipe(writer);
+            response.data.pipe(writer);
 
             return new Promise(async (resolve, reject) => {
                 await writer.on('finish', (resolve))

@@ -1,13 +1,11 @@
 import express from 'express';
 import { json } from 'body-parser';
 import { MainRouter } from './routes';
-import mongoose from 'mongoose';
 import errorHandler from './middlewares/error-handler';
-import validate from './middlewares/validate';
 import { socket } from './socket';
 import http from 'http';
 import cors from 'cors';
-import * as socketio from "socket.io";
+import { database } from './db';
 
 
 require('dotenv').config()
@@ -25,7 +23,6 @@ app.use(MainRouter);
 
 app.set('trust proxy', true);
 app.use(errorHandler);
-app.use(validate);
 
 
 export const Socket: socket = new socket(server);
@@ -34,15 +31,8 @@ Socket.listen();
 
 
 //DB
-mongoose.connect('mongodb://localhost:27017/55pbx')
-.then(
-  () => { console.log('connected to mongodb ') },
-  err => { console.log(err) }
-  )
-  
-mongoose.connection.on('connected', () => console.log('Connected db'));
-mongoose.connection.on('error', (err) => console.log('Connection failed with - ', err));  
-mongoose.set('debug', true);
+const Database: database = new database();
+Database.init();
 
 
 server.listen(3000, () => {
