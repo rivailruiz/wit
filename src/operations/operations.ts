@@ -4,24 +4,23 @@ import UUID from 'pure-uuid';
 import Path from 'path';
 import fs from 'fs';
 import { Socket } from '../index';
-const sharp = require("sharp");
-const { createCanvas, loadImage } = require('canvas')
+import { operationsService } from './operations.service';
 
 export class operations {
     formats: any = [];
-    
+    static idFolder: string;
+
     constructor() { }
 
     public static async fetchUrl(url: string) {
-        
+
         let allImgs = await axios.get(url)
             .then(async (res) => {
-                const links = [];
                 const $ = cheerio.load(res.data);
 
                 const id = new UUID(4).format();
-                const directory = Path.join('.', 'imgs', id);
-
+                const directory = Path.join('.', 'public/imgs', id);
+                this.idFolder = id;
 
                 if (!fs.existsSync(directory)) {
                     fs.mkdirSync(directory, { recursive: true });
@@ -33,8 +32,6 @@ export class operations {
 
                     if (img) {
                         this.downloadImage(img, directory);
-                        Socket.get().emit('new_image', { url: img, id: id });
-                        links.push({ url: img })
                     }
                 });
                 return true;
@@ -57,9 +54,15 @@ export class operations {
             })
 
             response.data.pipe(writer);
+            const urlLocal = `${process.env.LOCALHOST}/public/imgs/${this.idFolder}/${id}.png`;
+
+            operationsService.insert(url, directory, urlLocal, id);
 
             return new Promise(async (resolve, reject) => {
-                await writer.on('finish', (resolve))
+                await writer.on('finish', () => {
+                    resolve(true);
+                    Socket.get().emit('new_image', { url: urlLocal, id: id });
+                })
                 await writer.on('error', (reject))
             }).catch(err => console.log(err));
 

@@ -7,9 +7,9 @@ import http from 'http';
 import cors from 'cors';
 import { database } from './db';
 
-
 require('dotenv').config()
 
+const path = require('path')
 const app = express();
 const server = http.createServer(app);
 const allowedOrigins = ['http://localhost:8080'];
@@ -20,6 +20,7 @@ const options: cors.CorsOptions = {
 app.use(json());
 app.use(cors(options));
 app.use(MainRouter);
+app.use('/public/imgs', express.static(path.join('.', 'public/imgs')))
 
 app.set('trust proxy', true);
 app.use(errorHandler);
