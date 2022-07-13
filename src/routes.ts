@@ -1,8 +1,6 @@
 import express, { Request, Response } from 'express';
 import { operations } from './operations/operations';
 
-
-// const operationsController = require('./controllers/operations');
 const router = express.Router();
 
 router.post('/search-images', async (req: Request, res: Response) => {
