@@ -5,6 +5,7 @@ import Path from 'path';
 import fs from 'fs';
 import { Socket } from '../index';
 import { operationsService } from './operations.service';
+const sharp = require('sharp');
 
 export class operations {
     formats: any = [];
@@ -45,26 +46,28 @@ export class operations {
         try {
 
             const id = new UUID(4).format();
-            const writer = fs.createWriteStream(directory + '/' + id + '.png');
 
-            const response = await axios({
-                url,
-                method: 'GET',
-                responseType: 'stream'
-            })
+            const resp = await axios.get(url, {responseType: 'arraybuffer'})
+                .then(response => Buffer.from(response.data, 'binary').toString('base64'));
 
-            response.data.pipe(writer);
-            const urlLocal = `${process.env.LOCALHOST}/public/imgs/${this.idFolder}/${id}.png`;
+            try {
+                let buff = Buffer.from(resp, 'base64');
+    
+                await sharp(buff)
+                    .grayscale()
+                    .toFile(directory + '/' + id + '.png')
+                    .then((info: any) => { console.log(info) })
+                    .catch((err: any) => { console.log(err) });
 
-            operationsService.insert(url, directory, urlLocal, id);
 
-            return new Promise(async (resolve, reject) => {
-                await writer.on('finish', () => {
-                    resolve(true);
+                    const urlLocal = `${process.env.LOCALHOST}/public/imgs/${this.idFolder}/${id}.png`;
+                    operationsService.insert(url, directory, urlLocal, id);
                     Socket.get().emit('new_image', { url: urlLocal, id: id });
-                })
-                await writer.on('error', (reject))
-            }).catch(err => console.log(err));
+
+            }catch(err) {
+                console.log(err)
+            }
+
 
         } catch (err) {
             console.log('catch', err);
